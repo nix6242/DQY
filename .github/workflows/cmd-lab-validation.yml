@@ -24,3 +24,19 @@ jobs:
         run: |
           & .\docs\cmd\validation\verify-kit.ps1 -KitSource .\docs\cmd\practice -OutputReport "$env:RUNNER_TEMP\cmd-kit-results.json"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish the test result
+        if: always()
+        shell: powershell
+        run: |
+          $reportPath = Join-Path $env:RUNNER_TEMP 'cmd-kit-results.json'
+          if (Test-Path -LiteralPath $reportPath) {
+            $report = Get-Content -LiteralPath $reportPath -Raw | ConvertFrom-Json
+            "CMD kit checks: $($report.checkCount); passed: $($report.passed)" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+            $report.checks | ForEach-Object { "- PASS: $_" } | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+            if (!$report.passed) {
+              $message = $report.error -replace '%','%25' -replace "`r",'%0D' -replace "`n",'%0A'
+              Write-Host "::error title=CMD learning kit::$message"
+            }
+          } else {
+            Write-Host '::error title=CMD learning kit::Test result was not created.'
+          }
