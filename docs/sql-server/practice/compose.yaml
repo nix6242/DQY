@@ -1,0 +1,15 @@
+services:
+  sqlserver:
+    # Digest từ manifest chính thức MCR ngày 11/10/2026, SQL Server 2022 Linux.
+    image: mcr.microsoft.com/mssql/server:2022-latest@sha256:4402d880dd4c34bfa7d8705e56a86cd6c88da80a1f6bbbe741f999e76264a090
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:?Đặt mật khẩu riêng trong .env trước khi chạy}"
+    ports:
+      - "127.0.0.1:14330:1433"
+    volumes:
+      - dqy_sql_data:/var/opt/mssql
+    mem_limit: 4g
+volumes:
+  dqy_sql_data:

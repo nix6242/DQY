@@ -1,0 +1,7 @@
+﻿CustomerID,FullName,Email,City,CreatedAt
+1,Nguyễn Minh An,an@example.test,Hà Nội,2025-01-01T08:00:00
+2,Trần Thu Hà,ha@example.test,TP. Hồ Chí Minh,2025-01-02T08:00:00
+3,Lê Quốc Bình,binh@example.test,Đà Nẵng,2025-02-01T08:00:00
+4,Phạm Bảo Ngọc,ngoc@example.test,Hà Nội,2025-03-01T08:00:00
+5,Võ Gia Huy,huy@example.test,,2025-03-05T08:00:00
+6,Đỗ Mai Linh,linh@example.test,Cần Thơ,2025-04-01T08:00:00
