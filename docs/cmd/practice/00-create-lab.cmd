@@ -1,6 +1,7 @@
 @echo off
 setlocal EnableExtensions DisableDelayedExpansion
-call "%~dp0_lab-guard.cmd" prepare
+set "KIT_DIR=%~dp0"
+call "%KIT_DIR%_lab-guard.cmd" prepare
 if errorlevel 1 exit /b 1
 set "LAB_ROOT=%USERPROFILE%\CMD-Lab"
 call :copy_fixture "readme.txt"
@@ -26,11 +27,11 @@ if exist "%LAB_ROOT%\data\%~1" (
     echo [KEEP] "%~1"
     exit /b 0
 )
-if not exist "%~dp0fixtures\%~1" (
+if not exist "%KIT_DIR%fixtures\%~1" (
     echo [FAIL] Missing kit fixture: "%~1"
     exit /b 1
 )
-copy /y "%~dp0fixtures\%~1" "%LAB_ROOT%\data\%~1" >nul
+copy /y "%KIT_DIR%fixtures\%~1" "%LAB_ROOT%\data\%~1" >nul
 if errorlevel 1 exit /b 1
 echo [COPY] "%~1"
 exit /b 0

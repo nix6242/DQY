@@ -27,11 +27,28 @@ function Run-Kit([string]$Script,[string]$Arguments='',[int]$Expected=0,[switch]
     $command = '""'+$path+'"'
     if ($Arguments.Length -gt 0) { $command += ' '+$Arguments }
     $command += '"'
-    $oldPreference=$ErrorActionPreference
-    $ErrorActionPreference='Continue'
-    try { $result=& $env:ComSpec /d /s /c $command 2>&1; $code=$LASTEXITCODE }
-    finally { $ErrorActionPreference=$oldPreference }
-    $text=($result | ForEach-Object { $_.ToString() }) -join [Environment]::NewLine
+    # Pass the raw CMD command line directly; PowerShell's legacy native argv
+    # serialization adds extra quotes around an argument containing spaces.
+    $startInfo=New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName=$env:ComSpec
+    $startInfo.Arguments='/d /v:off /s /c '+$command
+    $startInfo.UseShellExecute=$false
+    $startInfo.CreateNoWindow=$true
+    $startInfo.RedirectStandardOutput=$true
+    $startInfo.RedirectStandardError=$true
+    $process=New-Object System.Diagnostics.Process
+    $process.StartInfo=$startInfo
+    try {
+        if (!$process.Start()) { throw 'CMD process did not start.' }
+        $stdoutTask=$process.StandardOutput.ReadToEndAsync()
+        $stderrTask=$process.StandardError.ReadToEndAsync()
+        $process.WaitForExit()
+        $stdout=$stdoutTask.GetAwaiter().GetResult()
+        $stderr=$stderrTask.GetAwaiter().GetResult()
+        $code=$process.ExitCode
+    } finally { $process.Dispose() }
+    $text=$stdout
+    if ($stderr.Length -gt 0) { $text += [Environment]::NewLine+$stderr }
     $runs.Add([pscustomobject]@{script=$Script;arguments=$Arguments;exitCode=$code;output=$text})
     Write-Host $text
     if ($NonZero) { Assert-Check ($code -ne 0) ($Script+' rejects unsafe/invalid case') }
@@ -45,7 +62,8 @@ try {
     $sentinel=Join-Path $lab 'keep.txt'
     [IO.File]::WriteAllText($sentinel,'owned by the CI test',[Text.Encoding]::ASCII)
     $sentinelHash=Hash $sentinel
-    $null=Run-Kit '00-create-lab.cmd' -NonZero
+    $unmarked=Run-Kit '00-create-lab.cmd' -NonZero
+    Assert-Check ($unmarked.Text.Contains('[GUARD] Existing lab is not marked. Nothing was changed.')) 'unmarked rejection came from the actual guard'
     Assert-Check ((Hash $sentinel) -eq $sentinelHash) 'unmarked-folder sentinel preserved'
     Assert-Check (!(Test-Path -LiteralPath (Join-Path $lab '.cmd-lab-marker'))) 'unmarked root not adopted'
     Assert-Check (@(Get-ChildItem -LiteralPath $lab -Force).Count -eq 1) 'unmarked folder has no new files'
@@ -168,6 +186,14 @@ try {
 } catch {
     $summary=[pscustomobject]@{passed=$false;checkCount=$checks.Count;checks=$checks;runs=$runs;error=$_.Exception.Message;os=[Environment]::OSVersion.VersionString}
     $summary | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $OutputReport -Encoding UTF8
+    $detail=$_.Exception.Message
+    if ($runs.Count -gt 0) {
+        $lastRun=$runs[$runs.Count-1]
+        $detail += [Environment]::NewLine+'Last script: '+$lastRun.script+' / Exit code '+$lastRun.exitCode+[Environment]::NewLine+$lastRun.output
+    }
+    if ($detail.Length -gt 6000) { $detail=$detail.Substring($detail.Length-6000) }
+    $annotation=$detail.Replace('%','%25').Replace("`r",'%0D').Replace("`n",'%0A')
+    Write-Host ('::error title=CMD validation failed::'+$annotation)
     Write-Error $_.Exception.Message
     exit 1
 }
