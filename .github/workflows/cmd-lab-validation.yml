@@ -36,6 +36,12 @@ jobs:
             if (!$report.passed) {
               $message = $report.error -replace '%','%25' -replace "`r",'%0D' -replace "`n",'%0A'
               Write-Host "::error title=CMD learning kit::$message"
+              if ($report.runs.Count -gt 0) {
+                $lastRun = $report.runs[-1]
+                $details = "Exit code $($lastRun.exitCode): $($lastRun.output)"
+                $details = $details -replace '%','%25' -replace "`r",'%0D' -replace "`n",'%0A'
+                Write-Host "::error title=CMD runtime output::$details"
+              }
             }
           } else {
             Write-Host '::error title=CMD learning kit::Test result was not created.'
