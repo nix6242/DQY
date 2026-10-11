@@ -1,0 +1,91 @@
+{
+  "scriptCount": 12,
+  "fixtureCount": 5,
+  "fixtureHashesMatch": true,
+  "scripts": [
+    {
+      "file": "05-loops.cmd",
+      "sha256": "820914e03e92a081c659fd6d778b936276980d1fb9fdde7080fcac20ea0cbdb8",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 113
+    },
+    {
+      "file": "08-cleanup-demo.cmd",
+      "sha256": "8a7de17e3bc3db366e99630e267205273c387c5efa583c770f5877a7ab3b7494",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 74
+    },
+    {
+      "file": "02-search-report.cmd",
+      "sha256": "485dd7402e0971aad4c3f262acca689948ab7eaead4d20348b42206d02430917",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 1324
+    },
+    {
+      "file": "01-file-tour.cmd",
+      "sha256": "44bfb9e7dad01923ae7aa1a4d04b47bb14c4fb515649789f32dc99308c3da130",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 49
+    },
+    {
+      "file": "09-verify-lab.cmd",
+      "sha256": "77da957d167306ef68ace3dfd4ac7f58e24bc35a63512c82d6b1f34e3a47c191",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 2244
+    },
+    {
+      "file": "_lab-guard.cmd",
+      "sha256": "1fc12d6db84caebeae952348b07c9e0c5f7ef6cb0690e6a3563d3d48d9f4e403",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 3783
+    },
+    {
+      "file": "03-backup-demo.cmd",
+      "sha256": "bff8f309bec6d6c3a20e6bd2605bba6aa0a9015752eac56ac370b06070e31ade",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 106
+    },
+    {
+      "file": "07-run-all.cmd",
+      "sha256": "ce0e2afb3fad0c539d8dd31b03c3dd69237f716617988076683ac58d8a8ab48d",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 59
+    },
+    {
+      "file": "00-create-lab.cmd",
+      "sha256": "dd935a7b9d753fceee190c0a8d87d2bd6697847329286d783c378d261668cc30",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 76
+    },
+    {
+      "file": "06-errorlevels.cmd",
+      "sha256": "661ca932254c215a552d7c172d54a2c8204a246557878b50b3f616f8d4cd685d",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 70
+    },
+    {
+      "file": "04-arguments.cmd",
+      "sha256": "18d7f001e0735060ba4ae7d54e789d24d78a02f1d0e04877aa0a8b4563d3d403",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 65
+    },
+    {
+      "file": "fixtures/code/hello.cmd",
+      "sha256": "663254e0a22f2883e7a17c8923357a727b24ad854581b883844c1b838fce8776",
+      "ascii": true,
+      "crlf": true,
+      "maxLine": 49
+    }
+  ]
+}
