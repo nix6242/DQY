@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "code\\hello.cmd",
+      "sha256": "663254E0A22F2883E7A17C8923357A727B24AD854581B883844C1B838FCE8776"
+    },
+    {
+      "path": "customers.csv",
+      "sha256": "A2A780E2D85D18250FF0983D6841B1EDA5D1E972702D67B10F87963B32A17A7A"
+    },
+    {
+      "path": "logs\\app.log",
+      "sha256": "60D4D3D94D47CE5E8E67D905D2F5A7109342950E4AC9E36B72D9AF31DD62118B"
+    },
+    {
+      "path": "notes with spaces.txt",
+      "sha256": "38AB5A927E39C90B9D23B0CB0D81863D0A6A61541DB6F5ECE10C5A683312FD70"
+    },
+    {
+      "path": "readme.txt",
+      "sha256": "AADB855C8E15610495E6F4EB358B57C08FF4A2832BD37FEB266B456015066DB1"
+    }
+  ]
+}

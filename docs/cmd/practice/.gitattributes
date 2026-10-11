@@ -1,0 +1,4 @@
+*.cmd -text
+fixtures/** -text
+*.json text eol=lf
+*.md text eol=lf
